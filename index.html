@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAC Network Gamified Learning</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0c0c1d;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        .quiz-container, .congrats-container {
+            display: none;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background: #45a049;
+        }
+        .lessons {
+            text-align: left;
+            margin: 20px 0;
+            background: #252542;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        .lessons:hover {
+            transform: scale(1.02);
+        }
+        .lessons h2 {
+            text-align: center;
+            color: #FFD700;
+            font-size: 1.5em;
+        }
+        .lessons ul {
+            list-style: none;
+            padding: 0;
+        }
+        .lessons li {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease-in-out;
+        }
+        .lessons li:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .congrats-container {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 20px;
+            background: #1e1e30;
+            border-radius: 10px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .congrats-container img {
+            width: 100%;
+            max-width: 300px;
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Welcome to TAC Network</h1>
+        <p>Learn how TAC connects Ethereum dApps with TON in a gamified experience!</p>
+
+        <section class="lessons">
+            <h2>🌟 Lessons</h2>
+            <ul>
+                <li><strong>What is TAC?</strong> - TAC is a Layer 1 blockchain introducing a novel TON-Adapter that enables Ethereum dApps to access TON wallets.</li>
+                <li><strong>Why use TAC?</strong> - It allows developers to deploy Solidity code for hybrid dApps that TON users can access seamlessly.</li>
+                <li><strong>How does TAC handle security?</strong> - It leverages a multi-collateral security model using stTON, tsTON, and tgBTC.</li>
+                <li><strong>Gas Fees</strong> - TAC utilizes TON as the gas fee token, allowing smooth integration with the TON ecosystem.</li>
+                <li><strong>Developer Benefits</strong> - Native TON experience with EVM support and easy migration of dApps.</li>
+            </ul>
+        </section>
+
+        <button class="btn" onclick="startQuiz()">Start Learning</button>
+    </div>
+
+    <div class="container quiz-container">
+        <div class="question" id="question"></div>
+        <button class="btn" onclick="checkAnswer(0)">Option 1</button>
+        <button class="btn" onclick="checkAnswer(1)">Option 2</button>
+        <button class="btn" onclick="checkAnswer(2)">Option 3</button>
+        <p id="feedback" style="color: red; font-weight: bold; display: none;"></p>
+    </div>
+
+    <div class="container congrats-container" id="congrats">
+        🎉 Congratulations! You are now Tacified! 🚀
+        <img src="https://optim.tildacdn.com/tild6630-6266-4561-a535-613633303161/-/resize/364x/-/format/webp/image1.png" alt="Tacified">
+    </div>
+
+    <script>
+        let questions = [
+            { q: "What is TAC?", options: ["A game", "A blockchain layer", "An NFT"], answer: 1 },
+            { q: "What does TAC connect?", options: ["Bitcoin to Ethereum", "Ethereum dApps to TON", "Web2 apps to Web3"], answer: 1 },
+            { q: "What is TAC's key feature?", options: ["Seamless EVM compatibility", "Cross-chain NFT minting", "A centralized database"], answer: 0 },
+            { q: "How does TAC benefit developers?", options: ["By requiring new programming languages", "By allowing Solidity code to run on TON", "By enforcing custom smart contracts"], answer: 1 }
+        ];
+        let currentQuestion = 0;
+
+        function startQuiz() {
+            document.querySelector('.container').style.display = 'none';
+            document.querySelector('.quiz-container').style.display = 'block';
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            let q = questions[currentQuestion];
+            document.getElementById('question').innerText = q.q;
+            let buttons = document.querySelectorAll('.quiz-container .btn');
+            buttons.forEach((btn, index) => {
+                btn.innerText = q.options[index];
+            });
+            document.getElementById('feedback').style.display = 'none';
+        }
+
+        function checkAnswer(index) {
+            let feedback = document.getElementById('feedback');
+            if (index === questions[currentQuestion].answer) {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                    loadQuestion();
+                } else {
+                    document.querySelector('.quiz-container').style.display = 'none';
+                    document.getElementById('congrats').style.display = 'block';
+                }
+            } else {
+                feedback.innerText = `Incorrect! The correct answer is: ${questions[currentQuestion].options[questions[currentQuestion].answer]}`;
+                feedback.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
